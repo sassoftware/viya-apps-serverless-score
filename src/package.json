@@ -1,0 +1,30 @@
+{
+  "name": "sls-score",
+  "version": "1.0.0",
+  "description": "Serverless function for scoring",
+  "main": "index.js",
+  "scripts": {
+    "test": "node"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kumar/sls-score"
+  },
+  "keywords": [
+    "sls",
+    "astore",
+    "scoring",
+    "Viya",
+    "SAS"
+  ],
+  "author": "Deva Kumaraswamy <deva.kumar@sas.com>",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "restaf": "latest"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.15.1",
+    "serverless-offline": "latest"
+  }
+}
