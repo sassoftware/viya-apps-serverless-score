@@ -25,9 +25,6 @@ Recommend [serverless cli](https://github.com/serverless/serverless). But use wh
 2. score - This serverless function accesses Viya to score the loan.
 
 
-## Relevant blog
-<TBD: after Joe gets the blog link to me>
-
 
     
 

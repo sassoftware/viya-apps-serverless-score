@@ -1,21 +1,23 @@
 {
-  "name": "sls-score",
+  "name": "viya-apps-serverless-score",
   "version": "1.0.0",
   "description": "Serverless function for scoring",
   "main": "index.js",
   "scripts": {
-    "test": "node"
+    "test": "sls offline"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/kumar/sls-score"
+    "url": "https://github.com/sassoftware/viya-apps-serverless-score"
   },
   "keywords": [
     "sls",
     "astore",
     "scoring",
     "Viya",
-    "SAS"
+    "SAS",
+    "serverless",
+    "REST"
   ],
   "author": "Deva Kumaraswamy <deva.kumar@sas.com>",
   "license": "Apache-2.0",

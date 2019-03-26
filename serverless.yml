@@ -46,7 +46,7 @@ provider:
 
   environment:
 
-    VIYA_SERVER: <your viys server>
+    VIYA_SERVER: <your viya server>
     CLIENTID: <your clientid>
     CLIENTSECRET: <your clientsecret>
     USER: <userid>
