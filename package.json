@@ -11,13 +11,13 @@
     "url": "https://github.com/sassoftware/viya-apps-serverless-score"
   },
   "keywords": [
-    "sls",
     "astore",
     "scoring",
     "Viya",
     "SAS",
     "serverless",
-    "REST"
+    "REST",
+    "restaf"
   ],
   "author": "Deva Kumaraswamy <deva.kumar@sas.com>",
   "license": "Apache-2.0",
