@@ -16,13 +16,14 @@
  * ---------------------------------------------------------------------------------------
  *
  */
-let restaf           = require('restaf');
-let scoreMain        = require('./scoreMain');
-let getLogonPayload  = require('../lib/getLogonPayload');
-let setPayload       = require('../lib/setPayload');
-let setError         = require('../lib/setError');
-let parseEvent       = require('../lib/parseEvent');
+let restaf    = require('@sassoftware/restaf');
+let {casSetup, caslScore, masSetup, masRun } = require('@sassoftware/restaflib');
 
+let  {
+        getLogonPayload,
+        parseEvent,
+        setError,
+        setPayload} = require('../lib');
 
 //
 // Get Viya logon info from environment variables and logon to Viya Server 
@@ -32,12 +33,32 @@ let parseEvent       = require('../lib/parseEvent');
 //
 module.exports.score  = async function (event, context) {
 
-   let store   = restaf.initStore(); /* initialize restaf         */
-   let inParms = parseEvent(event);  /* (1) validate input        */
-   let payload = getLogonPayload();  /* (2) get logon information */
+	// use rejectUnauthorized for demos only 
+	let store   = restaf.initStore(); /* initialize restaf         */
+	let session = null;
+	
+	try {
+		let inParms = await parseEvent(event);
+		let payload = await getLogonPayload(inParms);
+		let results;
+	
+		if (inParms.masModel != null) {
+			let model = [inParms.model.name];
+			let masControl = await masSetup(store, model, payload);
+			results = await masRun(store, masControl, inParms.model.name, inParms.scenario, (inParms. step != null) ? inParms.step:null); 
+		} else {
+			let r = await casSetup(store, payload);
+			session = r.session;
+			results = await caslScore(store, session, inParms);
+			await store.apiCall(session.links('delete'));
+		}
+		return setPayload(results);
+	} 
+	catch(err) {
+		if (session !== null) {
+			await store.apiCall(session.links('delete'));
+		}
+		return setError(err);
+	}
+};
 
-   return store.logon(payload)  /* (3) logon to Viya */
-        .then (()    => scoreMain (store, inParms)) /* score */
-        .then(result => setPayload(result))         /* return results    */
-        .catch(err   => setError(err))              /* else return error */
-}

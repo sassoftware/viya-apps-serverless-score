@@ -1,33 +1,98 @@
-# Serverless Function and SAS Viya - A Good Match
+# serverless-score-models - a reusuable serverless function for scoring with Viya
 
-An AWS serverless function for scoring with astore. 
+---
+The serverless function can be used to score when the scoring code is:
 
-## Installation
+1. A datastep code deployed as a codeTable on a cas server
 
-1. Clone this repository
-2. Do an 'npm install'
-2. Edit and/or replace the serverless.yml to be appropriate for your environment
-   - Pay attention to the environment section. This is where you will define how to logon to Viya and the astore to use.
-3. Deploy the function
+2. An astore that is deployed on a cas server
 
-### A note on securing your password
+3. (TBD): Accessing model published to a Micro Analytic Service
 
-In this example we are storing the userid and password in the environment variables. This is to the keep the focus on the internals of serverless functions for SAS Viya. Locally you can use "serverless variables" to secure the information during development. However for production deployment recommend that you refer to your provider's recommendations and the user community for best practices. Usually there are multiple ways to do it.
+---
 
-## Tools
+## Repository
 
-Recommend [serverless cli](https://github.com/serverless/serverless). But use what ever makes you comfortable
+The code is available at <https://github.com/sassoftware/restaf-demos/packages/serverless-score>
 
-## Serverless functions in this repository
+## Configuration
 
-1. app - Invoke this from your browser. In the app you can enter some information for a loan application.
+1. Edit the serverless.yml and modify it for your needs.
 
-2. score - This serverless function accesses Viya to score the loan.
+## Securing your secrets
+
+It is recommended that you create a AWS Secret with the following information:
+
+```js
+{
+VIYA_SERVER,
+USER,
+PASSWORD,
+CLIENTID,
+CLIENTSECRET
+}
+```
+
+You can use this secret in two ways;
+
+1. Specify the MAINKEY value in the serverless.yml file
+2. Pass it in the payload to the end points described below.
+
+If you want the quick start without the hastle of setting up the secret see the section Quick Start.
+
+## Serverless endpoint /score
+
+Use this end point for scoring
+
+The payload JSON has this schema
+
+```json
+{
+"key": "<your secretname>", /* not required if it is specified in serverless.yml */
+"model": {"caslib": "<model's caslib", "name": "model's name", "type": "<ds|astore>"},
+"scenario": {
+  "inputvar1": <value>,
+  "inputvar2": <value>,
+  ...
+  }
+}
+
+## Serverless end point /describe
+
+If you are scoring with astore then use this end point to get information on the input variables
 
 
+The payload is:
 
-    
+```json
+{
+"key": "<your secretname>", /* not required if it is specified in serverless.yml */
+"model": {"caslib": "<model's caslib", "name": "model's name", "type": "<ds|astore>"}
+}
+```
 
+## Quick Start
 
+In place of the "key" you can specify the values of the secret as follows:
 
+```json
+{
+  "test": { "host": "<http://yourviyaserver>",
+            "clientID": "<yourclientid>",
+            "clientSecret": "<yourclientsecret>",
+            "user": "<username>",
+            "password": '<password>  
+            },
+  "model": {"caslib": "<model's caslib", "name": "model's name", "type": "<ds|astore>"},
+  "scenario": {
+  "inputvar1": <value>,
+  "inputvar2": <value>,
+  ...
+  }
+  
+}
+```
 
+## Configuring SAS Viya Quick Start on AWS for serverless functions
+
+Please see this link for details <https://github.com/sassoftware/restaf/wiki/Configuring-SAS-Viya-AWS-Quick-Start-for-serverless-functions>

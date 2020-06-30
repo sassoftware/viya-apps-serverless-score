@@ -25,18 +25,18 @@ variableSyntax: "\\${{([ ~:a-zA-Z0-9._\\'\",\\-\\/\\(\\)]+?)}}"
 # custom: ${file(./awsenv.yml)}
 provider: 
   name: aws
-  runtime: nodejs8.10
+  runtime: nodejs12.x
   region: us-east-1
   stage: demo
-  role: <iam role>
+  role: your-role/xxxx
   vpc:
     securityGroupIds:
-      - <sgid>
+      - sg-xxxx
     subnetIds:
-      - subnet1
-      - subnet2
+      - subnet-xxx
+      - subnet-xxx
   deploymentBucket: 
-    name: <your S3 bucket>
+    name: xxx/yyy
   timeout: 30
   memorySize: 1024
 
@@ -46,12 +46,14 @@ provider:
 
   environment:
 
-    VIYA_SERVER: <your viya server>
-    CLIENTID: <your clientid>
-    CLIENTSECRET: <your clientsecret>
-    USER: <userid>
-    PASSWORD: <password>
-    
+    VIYA_SERVER: ip-address of viya
+    CLIENTID: clientid
+    CLIENTSECRET:clientsecret
+    USER: username
+    PASSWORD: password
+# If using AWS secret store move the preceding env to it
+#    MAINKEY: 
+#    MAINREGION: 
 # see the data subir for sample scoring model
     caslib: casuser
     name: GRADIENT_BOOSTING___BAD_2

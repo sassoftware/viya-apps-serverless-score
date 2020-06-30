@@ -19,24 +19,24 @@
 
 let fs       = require("fs");
 let path     = require('path');
-let setError = require('../lib/setError');
+let { setError } = require('../lib');
 
 module.exports.app  = async function () {
-    let id = 'loan';
+    let id = 'index';
     let h = await ht(id); 
     let r = {
         statusCode: 200,
         headers   : { 'Content-Type': 'text/html' },
         body      : h
-    }
+    };
     return r;
-}
+};
 function ht (id) {
     return new Promise((resolve, reject) => {
         let indexPath = path.resolve (__dirname, `../public/${id}.html`);
         fs.readFile(indexPath, 'utf8', (err, data) => {
             if (err) {
-                reject(setError(JSON.stringify(err)))
+                reject(setError(JSON.stringify(err)));
             } else {
                 resolve(data);
             }
