@@ -135,11 +135,11 @@ function onSubmit() {
 async function runScore(inputValues ){
     
     let payload = {
-        astore: {
+        model: {
             caslib: 'Public',
             name: 'GRADIENT_BOOSTING___BAD_2'
         },
-        input: inputValues
+        scenario: inputValues
     }
     let config = {
         url: host + '/score',
@@ -147,7 +147,8 @@ async function runScore(inputValues ){
         data: payload
     }
     let r = await axios(config);
-    return r.data.score;
+    console.log(r.data);
+    return r.data;
 
 }
 
