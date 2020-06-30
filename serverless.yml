@@ -48,7 +48,7 @@ provider:
 
     VIYA_SERVER: ip-address of viya
     CLIENTID: clientid
-    CLIENTSECRET:clientsecret
+    CLIENTSECRET: clientsecret
     USER: username
     PASSWORD: password
 # If using AWS secret store move the preceding env to it
