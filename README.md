@@ -3,17 +3,17 @@
 ---
 The serverless function can be used to score when the scoring code is:
 
-1. A datastep code deployed as a codeTable on a cas server
+1. A datastep code or ds2 code deployed as a codeTable on a cas server
 
 2. An astore that is deployed on a cas server
 
-3. (TBD): Accessing model published to a Micro Analytic Service
+3. Accessing model published to a Micro Analytic Service or CAS destination
 
 ---
 
 ## Repository
 
-The code is available at <https://github.com/sassoftware/restaf-demos/packages/serverless-score>
+The code is available at <https://github.com/sassoftware/viya-apps-serverless-score>
 
 ## Configuration
 
@@ -33,13 +33,6 @@ CLIENTSECRET
 }
 ```
 
-You can use this secret in two ways;
-
-1. Specify the MAINKEY value in the serverless.yml file
-2. Pass it in the payload to the end points described below.
-
-If you want the quick start without the hastle of setting up the secret see the section Quick Start.
-
 ## Serverless endpoint /score
 
 Use this end point for scoring
@@ -48,8 +41,9 @@ The payload JSON has this schema
 
 ```json
 {
-"key": "<your secretname>", /* not required if it is specified in serverless.yml */
-"model": {"caslib": "<model's caslib", "name": "model's name", "type": "<ds|astore>"},
+"destination": "xxx" , /* this is only needed for published models where xxx is either MAS or CAS*/
+"modelName": "some-published-model-name", /* used only for published models */
+"model": {"caslib": "<model's caslib", "name": "model's name"},
 "scenario": {
   "inputvar1": <value>,
   "inputvar2": <value>,
@@ -57,40 +51,22 @@ The payload JSON has this schema
   }
 }
 
-## Serverless end point /describe
+## Notes
 
-If you are scoring with astore then use this end point to get information on the input variables
-
-
-The payload is:
+The secret key can be specified in the payload as "key" as follows:
 
 ```json
 {
-"key": "<your secretname>", /* not required if it is specified in serverless.yml */
-"model": {"caslib": "<model's caslib", "name": "model's name", "type": "<ds|astore>"}
-}
-```
-
-## Quick Start
-
-In place of the "key" you can specify the values of the secret as follows:
-
-```json
-{
-  "test": { "host": "<http://yourviyaserver>",
-            "clientID": "<yourclientid>",
-            "clientSecret": "<yourclientsecret>",
-            "user": "<username>",
-            "password": '<password>  
-            },
-  "model": {"caslib": "<model's caslib", "name": "model's name", "type": "<ds|astore>"},
+  "key": "somekey",
+  "destination": "xxx" , /* this is only needed for published models where xxx is either MAS or CAS*/
+  "modelName": "some-published-model-name", /* used only for published models */
+  "model": {"caslib": "<model's caslib", "name": "model's name"},
   "scenario": {
-  "inputvar1": <value>,
-  "inputvar2": <value>,
-  ...
+    "inputvar1": <value>,
+    "inputvar2": <value>,
+    ...
+    }
   }
-  
-}
 ```
 
 ## Configuring SAS Viya Quick Start on AWS for serverless functions

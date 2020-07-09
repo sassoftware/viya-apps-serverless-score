@@ -127,8 +127,9 @@ function onSubmit() {
         })
         .catch( e => {
             debugger;
+            
             console.log(e);
-            alert(e);
+            alert(JSON.stringify(e, null,4));
         })
 }
 
@@ -137,7 +138,7 @@ async function runScore(inputValues ){
     let payload = {
         model: {
             caslib: 'Public',
-            name: 'GRADIENT_BOOSTING___BAD_2'
+            name: 'GRADIENT_BOOSTING___BAD_2x'
         },
         scenario: inputValues
     }

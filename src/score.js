@@ -37,15 +37,28 @@ module.exports.score  = async function (event, context) {
 	let store   = restaf.initStore(); /* initialize restaf         */
 	let session = null;
 	
+	/*
+	let inParms = {
+	   destination: 'MAS'|'CAS',
+	   modelName  : modelname, -- valid for MAS or CAS,
+	   step       : stepname -- valid only for destination of Model
+	   model      { caslib:  , name: },  -- ignored for MAS
+	   scenarios  : { scenario values}
+	   
+	scenario: { }
+
+	}
+	*/
 	try {
 		let inParms = await parseEvent(event);
 		let payload = await getLogonPayload(inParms);
 		let results;
+		let destination = inParms.destination;
 	
-		if (inParms.masModel != null) {
-			let model = [inParms.model.name];
+		if (destination === 'MAS') {
+			let model = [inParms.modelName];
 			let masControl = await masSetup(store, model, payload);
-			results = await masRun(store, masControl, inParms.model.name, inParms.scenario, (inParms. step != null) ? inParms.step:null); 
+			results = await masRun(store, masControl, inParms.model.name, inParms.scenario, (inParms.step != null) ? inParms.step:null); 
 		} else {
 			let r = await casSetup(store, payload);
 			session = r.session;
