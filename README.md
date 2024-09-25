@@ -1,3 +1,5 @@
+**Archived project: This project is no longer under actively developement and was archived on 2024-09-25.**
+
 # Serverless Function and SAS Viya - A Good Match
 
 An AWS serverless function for scoring with astore. 
